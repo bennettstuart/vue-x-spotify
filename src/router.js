@@ -4,40 +4,33 @@ import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
   mode: "history",
   routes: [
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
+      meta: { requiresAuth: true }
     },
     {
       path: "/login",
       name: "login",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Login.vue")
+      component: () => import("./views/Login.vue")
     },
     {
       path: "/artist",
       name: "artist",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Artist.vue")
+      component: () => import("./views/Artist.vue"),
+      meta: { requiresAuth: true }
     },
     {
       path: "/album",
       name: "album",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Album.vue")
+      component: () => import("./views/Album.vue"),
+      meta: { requiresAuth: true }
     }
   ]
 });
+
+export default router;

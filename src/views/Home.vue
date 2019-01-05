@@ -1,18 +1,23 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <LoginButton />
+    <LoginButton v-if="!accessToken"/>
+    <div v-else>
+      <h1>Welcome!</h1>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import LoginButton from "@/components/LoginButton.vue";
-console.log(process.env)
+import { mapState } from "vuex";
+
 export default {
   name: "home",
   components: {
     LoginButton
+  },
+  computed: {
+    ...mapState(["accessToken"])
   }
 };
 </script>
