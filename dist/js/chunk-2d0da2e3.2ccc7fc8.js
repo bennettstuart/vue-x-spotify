@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0da2e3"],{"6b01":function(e,t,n){"use strict";n.r(t);var i=function(){var e=this,t=e.$createElement;e._self._c;return e._m(0)},s=[function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",[n("h1",[e._v("This is an Artist page")])])}],r=n("2877"),u={},a=Object(r["a"])(u,i,s,!1,null,null,null);a.options.__file="Artist.vue";t["default"]=a.exports}}]);
+//# sourceMappingURL=chunk-2d0da2e3.2ccc7fc8.js.map
