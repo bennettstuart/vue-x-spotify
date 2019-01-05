@@ -7,7 +7,7 @@
 
 <script>
 import queryString from "query-string";
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 import { FingerprintSpinner } from "epic-spinners";
 
 export default {
@@ -16,9 +16,9 @@ export default {
     FingerprintSpinner
   },
   methods: {
-    ...mapMutations(["STORE_ACCESS_TOKEN"]),
+    ...mapActions(["STORE_ACCESS_TOKEN_GET_USER"]),
     storeAccessToken(token) {
-      this.STORE_ACCESS_TOKEN(token);
+      this.STORE_ACCESS_TOKEN_GET_USER({ accessToken: token });
     }
   },
   created: function() {
