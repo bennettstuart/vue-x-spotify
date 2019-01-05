@@ -43,7 +43,7 @@ export default new Vuex.Store({
         Vue.http
           .get("https://api.spotify.com/v1/me", {
             headers: {
-              Authorization: accessToken
+              Authorization: `Bearer ${accessToken}`
             }
           })
           .then(response => {

@@ -32,6 +32,10 @@ html {
   color: #42b983;
 }
 
+:focus {
+  outline: 3px;
+}
+
 .absolute-center {
   text-align: center;
   position: absolute;
