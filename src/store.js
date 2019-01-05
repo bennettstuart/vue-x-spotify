@@ -17,24 +17,27 @@ export default new Vuex.Store({
   },
   mutations: {
     STORE_ACCESS_TOKEN: (state, link) => {
-      console.log("STORE_ACCESS_TOKEN", link);
       state.accessToken = link.accessToken;
       setTimeout(() => {
         router.push("/");
       }, 3000);
     },
     STORE_USER: (state, link) => {
-      console.log("STORE_USER", link);
       state.user = link.user;
     },
     LOGOUT_USER: state => {
       state.accessToken = null;
       state.user = null;
+    },
+    SET_ARTISTS: (state, link) => {
+      state.artists = link.artists;
+    },
+    SET_ALBUMS: (state, link) => {
+      state.albums = link.albums;
     }
   },
   actions: {
     REQUEST_USER: ({ commit, state }, payload) => {
-      console.log("REQUEST_USER");
       let accessToken = state.accessToken;
       if (accessToken) {
         accessToken = payload.accessToken;
@@ -47,15 +50,30 @@ export default new Vuex.Store({
             }
           })
           .then(response => {
-            console.log(response);
             commit("STORE_USER", response);
           });
       }
     },
     STORE_ACCESS_TOKEN_GET_USER: ({ commit, dispatch }, payload) => {
-      console.log("STORE_ACCESS_TOKEN_GET_USER");
       commit("STORE_ACCESS_TOKEN", payload);
       dispatch("REQUEST_USER", payload);
+    },
+    SEARCH_ARTISTS: ({ commit, state }, payload) => {
+      const { accessToken } = state;
+      Vue.http
+        .get("https://api.spotify.com/v1/search", {
+          params: { q: payload.searchTerm, type: "artist" },
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        .then(response => {
+          console.log(response);
+          commit("SET_ARTISTS", { artists: response.body.artists.items });
+        });
+    },
+    SEARCH_ALBUMS: ({ commit }, payload) => {
+      commit("SET_ALBUMS", payload);
     }
   }
 });

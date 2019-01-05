@@ -16,13 +16,18 @@
           <button class="searchButton" v-on:click="search">Search</button>
         </span>
       </div>
+      <div class="listContainer">
+        <div v-for="artist in artists" :key="artist.id" class="artistItem">
+          <div>{{artist.name}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import LoginButton from "@/components/LoginButton.vue";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "home",
@@ -35,18 +40,20 @@ export default {
     LoginButton
   },
   computed: {
-    ...mapState(["accessToken"])
+    ...mapState(["accessToken", "artists"])
   },
   methods: {
     ...mapMutations(["LOGOUT_USER"]),
     logout() {
       this.LOGOUT_USER();
     },
+    ...mapActions(["SEARCH_ARTISTS"]),
     search(e) {
       e.target.blur();
       let value = this.searchTerm;
       if (value.length === 0) return;
       console.log(value, e);
+      this.SEARCH_ARTISTS({ searchTerm: value });
     }
   }
 };
