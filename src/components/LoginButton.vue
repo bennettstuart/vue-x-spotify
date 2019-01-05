@@ -12,11 +12,11 @@ export default {
   methods: {
     login: () => {
       const clientId = process.env.VUE_APP_CLIENT_ID;
-      const redirectUri = encodeURIComponent(process.env.VUE_APP_REDIRECT_URI);
+      const redirect_uri = encodeURIComponent(process.env.VUE_APP_REDIRECT_URI);
 
-      console.log(process.env.VUE_APP_REDIRECT_URI, redirectUri);
+      console.log(process.env.VUE_APP_REDIRECT_URI, redirect_uri);
 
-      window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=user-read-private%20user-read-email&state=34fFs29kd09`;
+      window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirect_uri}&scope=user-read-private%20user-read-email&state=34fFs29kd09`;
     }
   }
 };
