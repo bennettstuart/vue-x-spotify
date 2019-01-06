@@ -19,7 +19,7 @@ let router = new Router({
       component: () => import("./views/Login.vue")
     },
     {
-      path: "/artist",
+      path: "/artist/:id",
       name: "artist",
       component: () => import("./views/Artist.vue"),
       meta: { requiresAuth: true }

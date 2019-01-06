@@ -34,6 +34,9 @@ export default new Vuex.Store({
     },
     SET_ALBUMS: (state, link) => {
       state.albums = link.albums;
+    },
+    SET_ARTIST: (state, link) => {
+      state.artist = link.artist;
     }
   },
   actions: {
@@ -73,6 +76,30 @@ export default new Vuex.Store({
     },
     SEARCH_ALBUMS: ({ commit }, payload) => {
       commit("SET_ALBUMS", payload);
+    },
+    GET_ARTIST: ({ commit, state }, payload) => {
+      //remove previous artist
+      commit("SET_ARTIST", { artist: null });
+
+      //check for artist loaded in search.artists
+      let foundArtist = state.artists.find(function(artist) {
+        return artist.id === payload.artistId;
+      });
+      if (foundArtist) {
+        commit("SET_ARTIST", { artist: foundArtist });
+      } else {
+        const { accessToken } = state;
+        Vue.http
+          .get(`https://api.spotify.com/v1/artists/${payload.artistId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then(response => {
+            console.log(response);
+            commit("SET_ARTIST", { artist: response.body });
+          });
+      }
     }
   }
 });

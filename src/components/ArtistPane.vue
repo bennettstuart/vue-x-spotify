@@ -3,6 +3,7 @@
     <div
       class="art-window"
       :style="{backgroundImage: `url(${artist.images[0] && artist.images[0].url || ''})`}"
+      v-on:click="openArtist(artist.id)"
     />
     <div class="artist-name">{{artist.name}}</div>
   </div>
@@ -11,7 +12,11 @@
 <script>
 export default {
   props: ["artist"],
-  methods: {},
+  methods: {
+    openArtist: function(artistId) {
+      this.$router.push(`artist/${artistId}`);
+    }
+  },
   data() {
     return {
       lowRes: { width: 0, url: "" },
@@ -53,6 +58,7 @@ export default {
   background-position: center;
   box-shadow: 0 0 0 0 rgba(8, 112, 184, 0.7);
   transition: box-shadow 0.2s linear;
+  cursor: pointer;
 }
 .art-window:hover {
   box-shadow: 0 0 8px 1px rgba(8, 112, 184, 0.7);
