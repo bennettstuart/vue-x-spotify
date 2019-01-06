@@ -30,7 +30,7 @@ export default {
     FingerprintSpinner
   },
   computed: {
-    ...mapState(["accessToken", "artist"])
+    ...mapState(["artist"])
   },
   methods: {
     ...mapActions(["GET_ARTIST"]),

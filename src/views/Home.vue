@@ -51,11 +51,14 @@ export default {
     },
     ...mapActions(["SEARCH_ARTISTS"]),
     search(e) {
-      e.target.blur();
+      e && e.target && e.target.blur();
       let value = this.searchTerm;
       if (value.length === 0) return;
       this.SEARCH_ARTISTS({ searchTerm: value });
     }
+  },
+  created() {
+    this.search({});
   }
 };
 </script>

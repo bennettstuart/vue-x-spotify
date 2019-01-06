@@ -1,8 +1,8 @@
 <template>
   <div class="discography">
-    <div v-for="item in this.discography" :key="item.id">
+    <div v-for="item in albums" :key="item.id">
       <div v-if="item.album_group == 'album'">
-        <img class="artist-art" :src="item.images[0].url">
+        <img class="art-window" :src="item.images[0].url" v-on:click="goAlbum(item.id)">
         {{item.name}}
       </div>
     </div>
@@ -11,7 +11,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { FingerprintSpinner } from "epic-spinners";
 
 export default {
   data() {
@@ -20,18 +19,18 @@ export default {
     };
   },
   computed: {
-    ...mapState(["accessToken", "artist"])
+    ...mapState(["accessToken", "artist", "albums"])
   },
   methods: {
+    ...mapActions(["GET_ALBUMS"]),
     getDiscography: function() {
-      console.log(this.accessToken);
-      this.$http
-        .get(`https://api.spotify.com/v1/artists/${this.artist.id}/albums`, {
-          headers: { Authorization: `Bearer ${this.accessToken}` }
-        })
-        .then(response => {
-          this.discography = response.body.items;
-        });
+      this.GET_ALBUMS({
+        artistId: this.artist.id,
+        params: { include_groups: "album" }
+      });
+    },
+    goAlbum: function(albumId) {
+      this.$router.push(`/artist/${this.artist.id}/album/${albumId}`);
     }
   },
   created: function() {
@@ -41,12 +40,6 @@ export default {
 </script>
 
 <style scoped>
-.artist-art {
-  display: inline-block;
-  width: 6em;
-  height: 6em;
-  border: 1px solid #43a2fd;
-}
 .discography {
   padding: 1em;
 }

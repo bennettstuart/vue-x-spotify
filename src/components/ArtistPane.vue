@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .pane {
   font-size: 16px;
   width: 6em;

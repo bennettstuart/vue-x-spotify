@@ -22,9 +22,9 @@ const storeTokenCache = function(accessToken, expiresAt) {
   window.localStorage.setItem(keys.expiresAt, expiresAt);
 };
 const clearTokenCache = function() {
-  keys.map(key => {
+  for (const key in keys) {
     window.localStorage.setItem(key, undefined);
-  });
+  }
 };
 
 export default new Vuex.Store({
@@ -36,7 +36,8 @@ export default new Vuex.Store({
     playTrack: null,
     refreshToken: null,
     accessToken: checkTokenCache(),
-    user: null
+    user: null,
+    currentTrack: null
   },
   mutations: {
     STORE_ACCESS_TOKEN: (state, link) => {
@@ -61,8 +62,14 @@ export default new Vuex.Store({
     SET_ALBUMS: (state, link) => {
       state.albums = link.albums;
     },
+    SET_ALBUM: (state, link) => {
+      state.album = link.album;
+    },
     SET_ARTIST: (state, link) => {
       state.artist = link.artist;
+    },
+    SET_CURRENT_TRACK: (state, link) => {
+      state.currentTrack = link;
     }
   },
   actions: {
@@ -125,6 +132,33 @@ export default new Vuex.Store({
             commit("SET_ARTIST", { artist: response.body });
           });
       }
+    },
+    GET_ALBUMS: ({ commit, state }, payload) => {
+      const { artistId, params } = payload;
+      const { accessToken } = state;
+
+      commit("SET_ALBUMS", { albums: [] });
+      Vue.http
+        .get(`https://api.spotify.com/v1/artists/${artistId}/albums`, {
+          params: params ? params : {},
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        .then(response => {
+          commit("SET_ALBUMS", { albums: response.body.items });
+        });
+    },
+    GET_ALBUM: ({ commit, state }, payload) => {
+      const { albumId } = payload;
+      const { accessToken } = state;
+
+      commit("SET_ALBUM", { albums: null });
+      Vue.http
+        .get(`https://api.spotify.com/v1/albums/${albumId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        .then(response => {
+          commit("SET_ALBUM", { album: response.body });
+        });
     }
   }
 });
