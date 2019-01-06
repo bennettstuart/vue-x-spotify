@@ -14,5 +14,4 @@ Welcome to this small project, a Vue.js SPA feat. Spotify API.
 1. navigate to the root of the project in the terminal/command prompt
 
 - `npm i`
-- on windows `npm i --save core-js` (I didn't need this on mac?)
 - `npm run serve`
