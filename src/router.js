@@ -10,8 +10,7 @@ let router = new Router({
     {
       path: "/",
       name: "home",
-      component: Home,
-      meta: { requiresAuth: true }
+      component: Home
     },
     {
       path: "/login",
@@ -22,13 +21,18 @@ let router = new Router({
       path: "/artist/:id",
       name: "artist",
       component: () => import("./views/Artist.vue"),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: "/album",
-      name: "album",
-      component: () => import("./views/Album.vue"),
-      meta: { requiresAuth: true }
+      children: [
+        {
+          path: "",
+          name: "discography",
+          component: () => import("./views/Discography.vue")
+        },
+        {
+          path: "album/:albumId",
+          name: "album",
+          component: () => import("./views/Album.vue")
+        }
+      ]
     }
   ]
 });

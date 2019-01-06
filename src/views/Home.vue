@@ -34,7 +34,7 @@ export default {
   name: "home",
   data() {
     return {
-      searchTerm: ""
+      searchTerm: "Everything Everything"
     };
   },
   components: {

@@ -51,6 +51,7 @@ export default new Vuex.Store({
       state.user = link.user;
     },
     LOGOUT_USER: state => {
+      clearTokenCache();
       state.accessToken = null;
       state.user = null;
     },
