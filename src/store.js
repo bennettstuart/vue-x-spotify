@@ -4,6 +4,29 @@ import router from "./router";
 
 Vue.use(Vuex);
 
+const keys = {
+  accessToken: "accessToken",
+  expiresAt: "expiresAt"
+};
+const checkTokenCache = function() {
+  const accessToken = window.localStorage.getItem(keys.accessToken);
+  const expiresAt = new Date(window.localStorage.getItem(keys.expiresAt));
+  let now = new Date();
+  now.setSeconds(now.getSeconds() + 5 * 60);
+
+  //token valid for at least 5 minutes
+  return now < expiresAt ? accessToken : null;
+};
+const storeTokenCache = function(accessToken, expiresAt) {
+  window.localStorage.setItem(keys.accessToken, accessToken);
+  window.localStorage.setItem(keys.expiresAt, expiresAt);
+};
+const clearTokenCache = function() {
+  keys.map(key => {
+    window.localStorage.setItem(key, undefined);
+  });
+};
+
 export default new Vuex.Store({
   state: {
     artists: [],
@@ -12,11 +35,13 @@ export default new Vuex.Store({
     album: null,
     playTrack: null,
     refreshToken: null,
-    accessToken: null,
+    accessToken: checkTokenCache(),
     user: null
   },
   mutations: {
     STORE_ACCESS_TOKEN: (state, link) => {
+      const { accessToken, expiresAt } = link;
+      storeTokenCache(accessToken, expiresAt);
       state.accessToken = link.accessToken;
       setTimeout(() => {
         router.push("/");
@@ -96,7 +121,6 @@ export default new Vuex.Store({
             }
           })
           .then(response => {
-            console.log(response);
             commit("SET_ARTIST", { artist: response.body });
           });
       }

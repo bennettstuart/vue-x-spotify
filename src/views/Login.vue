@@ -17,28 +17,20 @@ export default {
   },
   methods: {
     ...mapActions(["STORE_ACCESS_TOKEN_GET_USER"]),
-    storeAccessToken(token) {
-      this.STORE_ACCESS_TOKEN_GET_USER({ accessToken: token });
+    storeAccessToken(payload) {
+      this.STORE_ACCESS_TOKEN_GET_USER(payload);
     }
   },
   created: function() {
     const hashValues = queryString.parse(this.$route.hash);
-    // console.log(hashValues["access_token"]);
 
-    this.storeAccessToken(hashValues["access_token"]);
+    let expiresAt = new Date();
+    expiresAt.setSeconds(expiresAt.getSeconds() + hashValues.expires_in);
 
-    // const code = this.$route.query && this.$route.query.code || "";
-    // this.$http.post("https://accounts.spotify.com/api/token", {
-    //   grant_type: "authorization_code",
-    //   code,
-    //   redirect_uri: process.env.VUE_APP_REDIRECT_URI
-    // }, {
-    //   headers: {
-    //     "Access-Control-Allow-Origin": "true"
-    //   }
-    // }).then(function(data) {
-    //   console.log("response", data)
-    // })
+    this.storeAccessToken({
+      accessToken: hashValues["access_token"],
+      expiresAt
+    });
   }
 };
 </script>
