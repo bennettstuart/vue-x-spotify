@@ -68,7 +68,6 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
-          console.log(response);
           commit("SET_ARTISTS", { artists: response.body.artists.items });
         });
     },

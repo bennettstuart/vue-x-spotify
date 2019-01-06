@@ -11,6 +11,7 @@ html {
   background-image: linear-gradient(#16171a, #141a20);
   background-repeat: no-repeat;
   background-attachment: fixed;
+  user-select: none;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

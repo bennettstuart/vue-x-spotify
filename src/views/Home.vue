@@ -5,20 +5,20 @@
       <button class="logout" v-on:click="logout">Sign Out</button>
       <h1>Welcome!</h1>
       <div class="searchContainer">
-        <span>
+        <div class="searchBar">
           <input
             v-model="searchTerm"
             v-on:keyup.enter="search"
-            class="search"
+            class="searchInput"
             placeholder="Search for you favourite artists..."
             type="text"
           >
           <button class="searchButton" v-on:click="search">Search</button>
-        </span>
+        </div>
       </div>
       <div class="listContainer">
         <div v-for="artist in artists" :key="artist.id" class="artistItem">
-          <div>{{artist.name}}</div>
+          <ArtistPane v-bind:artist="artist"/>
         </div>
       </div>
     </div>
@@ -27,6 +27,7 @@
 
 <script>
 import LoginButton from "@/components/LoginButton.vue";
+import ArtistPane from "@/components/ArtistPane.vue";
 import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
@@ -37,7 +38,8 @@ export default {
     };
   },
   components: {
-    LoginButton
+    LoginButton,
+    ArtistPane
   },
   computed: {
     ...mapState(["accessToken", "artists"])
@@ -52,7 +54,6 @@ export default {
       e.target.blur();
       let value = this.searchTerm;
       if (value.length === 0) return;
-      console.log(value, e);
       this.SEARCH_ARTISTS({ searchTerm: value });
     }
   }
@@ -68,7 +69,8 @@ export default {
 }
 .searchContainer {
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   margin: 1em auto;
 }
 .searchButton {
@@ -90,13 +92,29 @@ export default {
 .searchButton:active {
   opacity: 0.5;
 }
-.search {
+.searchBar {
+  font-size: 20px;
+  position: relative;
+  width: 20em;
+  max-width: 100%;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  background: white;
+}
+.searchInput {
+  background: rgba(0, 0, 0, 0);
   text-align: left;
   font-size: 20px;
-  line-height: 1rem;
-  padding: 0.25rem 1rem 0.25rem 1rem;
-  border-radius: 1rem;
   border: 0;
-  width: 20em;
+  width: 100%;
+  height: 100%;
+}
+.listContainer {
+  max-width: 100%;
+  width: 40em;
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
