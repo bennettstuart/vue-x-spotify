@@ -1,29 +1,18 @@
 # vue-x-spotify
 
-## Project setup
-```
-npm install
-```
+Welcome to this small project, a Vue.js SPA feat. Spotify API.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Steps to run:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. `sudo npm -g @vue/cli` install vue-cli
+1. clone the repo, in the root of the project create a `.env` file with the following contents
+   > ```
+   > VUE_APP_CLIENT_ID=030b68fbfa5c41e3aa04313534ab4b47
+   > VUE_APP_CLIENT_SECRET=52424ccacb544dbe9651cdc6fa652907
+   > VUE_APP_REDIRECT_URI=http://localhost:8080/login
+   > ```
+1. navigate to the root of the project in the terminal/command prompt
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- `npm i`
+- on windows `npm i --save core-js` (I didn't need this on mac?)
+- `npm run serve`
